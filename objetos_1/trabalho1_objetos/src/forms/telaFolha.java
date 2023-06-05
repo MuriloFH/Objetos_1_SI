@@ -328,6 +328,7 @@ public class telaFolha extends javax.swing.JDialog {
         textAreaFolhas.setEnabled(true);
         System.out.println(listFolhas.size());
         for (int i = 0; i < listFolhas.size(); i++) {
+         
             textAreaFolhas.append(listFolhas.get(i).getNomeFunc() + "|"+ listFolhas.get(i).getTipoProcessamento() +"("+listFolhas.get(i).getSubTipoProcessamento()+")|"+ listFolhas.get(i).getCompetencia() +"|" + listFolhas.get(i).getSalarioContratual() +"|"+listFolhas.get(i).getCalcLiquido()+"\n");
         }
     }//GEN-LAST:event_bntMostraFolhasActionPerformed
