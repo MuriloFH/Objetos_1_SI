@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package forms;
 
 import classes.DadosFolha;
 import functions.Funcoes;
+import java.util.LinkedList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,7 +24,6 @@ public class telaFolha extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         textFieldNomeFunc = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        textFieldCompetencia = new javax.swing.JTextField();
         radioButtonFalta = new javax.swing.JRadioButton();
         spinnerHorasFaltas = new javax.swing.JSpinner();
         spinnerSalContratual = new javax.swing.JSpinner();
@@ -36,11 +32,15 @@ public class telaFolha extends javax.swing.JDialog {
         buttonLimpaDados = new javax.swing.JButton();
         buttonCalcular = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        textFieldProcessamento = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        textFieldSubProcessamento = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableRecibo = new javax.swing.JTable();
+        textFieldCompetencia = new javax.swing.JFormattedTextField();
+        comboProcessamento = new javax.swing.JComboBox<>();
+        comboSubProcessamento = new javax.swing.JComboBox<>();
+        bntMostraFolhas = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textAreaFolhas = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -52,21 +52,6 @@ public class telaFolha extends javax.swing.JDialog {
         jLabel1.setText("Nome");
 
         jLabel2.setText("Competência do Cálculo");
-
-        textFieldCompetencia.setText("Ex: 05/2025");
-        textFieldCompetencia.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                textFieldCompetenciaFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                textFieldCompetenciaFocusLost(evt);
-            }
-        });
-        textFieldCompetencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldCompetenciaActionPerformed(evt);
-            }
-        });
 
         radioButtonFalta.setText("Funcionário teve faltas?");
         radioButtonFalta.addActionListener(new java.awt.event.ActionListener() {
@@ -132,7 +117,31 @@ public class telaFolha extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tableRecibo.setEnabled(false);
         jScrollPane1.setViewportView(tableRecibo);
+
+        try {
+            textFieldCompetencia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        comboProcessamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mensal", "Férias", "13° Terceiro", "Rescisão", " " }));
+
+        comboSubProcessamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Integral", "Complementar" }));
+
+        bntMostraFolhas.setText("Exibir todas as folhas");
+        bntMostraFolhas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntMostraFolhasActionPerformed(evt);
+            }
+        });
+
+        textAreaFolhas.setEditable(false);
+        textAreaFolhas.setColumns(20);
+        textAreaFolhas.setRows(5);
+        textAreaFolhas.setEnabled(false);
+        jScrollPane2.setViewportView(textAreaFolhas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,34 +161,40 @@ public class telaFolha extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(radioButtonFalta)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(radioButtonFalta)
                                     .addComponent(jLabel1)
                                     .addComponent(textFieldNomeFunc, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(113, 113, 113)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(comboProcessamento, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(37, 37, 37)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(comboSubProcessamento, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(48, 48, 48))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(spinnerSalContratual, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(113, 113, 113)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(textFieldProcessamento, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(textFieldSubProcessamento, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(textFieldCompetencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(spinnerSalContratual, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(textFieldCompetencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(24, 24, 24))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bntMostraFolhas, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -192,17 +207,17 @@ public class telaFolha extends javax.swing.JDialog {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textFieldCompetencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textFieldNomeFunc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(textFieldNomeFunc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFieldProcessamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(comboProcessamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFieldSubProcessamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textFieldCompetencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboSubProcessamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(4, 4, 4)
@@ -216,17 +231,23 @@ public class telaFolha extends javax.swing.JDialog {
                     .addComponent(buttonCalcular)
                     .addComponent(buttonLimpaDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(bntMostraFolhas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private LinkedList<DadosFolha> listFolhas = new LinkedList<>();
+    
     public void resetDados() {
         textFieldNomeFunc.setText("");
-        textFieldCompetencia.setText("Ex: 05/2025");
-        textFieldProcessamento.setText("");
-        textFieldSubProcessamento.setText("");
+        comboProcessamento.setSelectedIndex(0);
+        comboSubProcessamento.setSelectedIndex(0);
         spinnerSalContratual.setValue(0);
         spinnerHorasFaltas.setValue(0);
         radioButtonFalta.setSelected(false);
@@ -239,24 +260,6 @@ public class telaFolha extends javax.swing.JDialog {
     public void mostraDadosTest(String nomeFunc, String competencia, String processamento, String subProcessamento, double salarioContratual, boolean faltas, int horasFaltas) {
         System.out.println(nomeFunc + "|" + competencia + "|" + processamento + "|" + subProcessamento + "|" + salarioContratual + "|" + faltas + "|" + horasFaltas);
     }
-
-    private void textFieldCompetenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldCompetenciaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldCompetenciaActionPerformed
-
-    private void textFieldCompetenciaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldCompetenciaFocusGained
-        // TODO add your handling code here:
-        if ("Ex: 05/2025".equals(textFieldCompetencia.getText())) {
-            textFieldCompetencia.setText("");
-        }
-    }//GEN-LAST:event_textFieldCompetenciaFocusGained
-
-    private void textFieldCompetenciaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldCompetenciaFocusLost
-        // TODO add your handling code here:
-        if ("Ex: 05/2025".equals(textFieldCompetencia.getText()) || textFieldCompetencia.getText().isEmpty()) {
-            textFieldCompetencia.setText("Ex: 05/2025");
-        }
-    }//GEN-LAST:event_textFieldCompetenciaFocusLost
 
     private void radioButtonFaltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonFaltaActionPerformed
         // TODO add your handling code here:
@@ -274,8 +277,8 @@ public class telaFolha extends javax.swing.JDialog {
         try {
             String nomeFunc = textFieldNomeFunc.getText();
             String competencia = textFieldCompetencia.getText();
-            String processamento = textFieldProcessamento.getText();
-            String subTipoProcessamento = textFieldSubProcessamento.getText();
+            String processamento = (String)comboProcessamento.getSelectedItem();
+            String subTipoProcessamento = (String)comboSubProcessamento.getSelectedItem();
             double salarioContratual = (double) spinnerSalContratual.getValue();
             boolean faltas = radioButtonFalta.isSelected();
             int horasFaltas = (int) spinnerHorasFaltas.getValue();
@@ -283,24 +286,26 @@ public class telaFolha extends javax.swing.JDialog {
             if (!radioButtonFalta.isSelected()) {
                 horasFaltas = 0;
             }
-
-            DadosFolha dadosFolha = new DadosFolha(nomeFunc, competencia, processamento, subTipoProcessamento, salarioContratual, faltas, horasFaltas);
+            
+            double liquido = Funcoes.calculaSalario(salarioContratual, horasFaltas);
+            
+            DadosFolha dadosFolha = new DadosFolha(nomeFunc, competencia, processamento, subTipoProcessamento, salarioContratual, faltas, horasFaltas, liquido);
 
             mostraDadosTest(dadosFolha.getNomeFunc(), dadosFolha.getCompetencia(), dadosFolha.getTipoProcessamento(), dadosFolha.getSubTipoProcessamento(), dadosFolha.getSalarioContratual(), dadosFolha.isFaltas(), dadosFolha.getHorasFaltas());
 
-            double liquido = Funcoes.calculaSalario(salarioContratual, horasFaltas);
-
             DefaultTableModel tabela = (DefaultTableModel) tableRecibo.getModel();
 
-            Object[] newProduto = new Object[]{
+            Object[] newFolha = new Object[]{
                 nomeFunc,
                 processamento + "(" + subTipoProcessamento + ")",
                 competencia,
                 salarioContratual,
                 liquido
             };
-
-            tabela.addRow(newProduto);
+            
+            listFolhas.add(dadosFolha);
+            
+            tabela.addRow(newFolha);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Sem dados para calcular, verifique se a hora mes foi cadastrada na aba 'cadastros' ou algum dado está faltando!");
@@ -316,6 +321,16 @@ public class telaFolha extends javax.swing.JDialog {
         // TODO add your handling code here:
         resetDados();
     }//GEN-LAST:event_formWindowOpened
+
+    private void bntMostraFolhasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntMostraFolhasActionPerformed
+        // TODO add your handling code here:
+        textAreaFolhas.setText("");
+        textAreaFolhas.setEnabled(true);
+        System.out.println(listFolhas.size());
+        for (int i = 0; i < listFolhas.size(); i++) {
+            textAreaFolhas.append(listFolhas.get(i).getNomeFunc() + "|"+ listFolhas.get(i).getTipoProcessamento() +"("+listFolhas.get(i).getSubTipoProcessamento()+")|"+ listFolhas.get(i).getCompetencia() +"|" + listFolhas.get(i).getSalarioContratual() +"|"+listFolhas.get(i).getCalcLiquido()+"\n");
+        }
+    }//GEN-LAST:event_bntMostraFolhasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,22 +375,25 @@ public class telaFolha extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bntMostraFolhas;
     private javax.swing.JButton buttonCalcular;
     private javax.swing.JButton buttonLimpaDados;
+    private javax.swing.JComboBox<String> comboProcessamento;
+    private javax.swing.JComboBox<String> comboSubProcessamento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelHorasFaltas;
     private javax.swing.JRadioButton radioButtonFalta;
     private javax.swing.JSpinner spinnerHorasFaltas;
     private javax.swing.JSpinner spinnerSalContratual;
     private javax.swing.JTable tableRecibo;
-    private javax.swing.JTextField textFieldCompetencia;
+    private javax.swing.JTextArea textAreaFolhas;
+    private javax.swing.JFormattedTextField textFieldCompetencia;
     private javax.swing.JTextField textFieldNomeFunc;
-    private javax.swing.JTextField textFieldProcessamento;
-    private javax.swing.JTextField textFieldSubProcessamento;
     // End of variables declaration//GEN-END:variables
 }

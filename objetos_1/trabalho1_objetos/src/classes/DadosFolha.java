@@ -9,9 +9,10 @@ public final class DadosFolha {
     private double salarioContratual;
     private boolean faltas;
     private int horasFaltas;
+    private double calcLiquido;
 
     //construtor
-    public DadosFolha(String nomeFunc, String competencia, String tipoProcessamento, String subTipoProcessamento, double salarioContratual, boolean faltas, int horasFaltas) {
+    public DadosFolha(String nomeFunc, String competencia, String tipoProcessamento, String subTipoProcessamento, double salarioContratual, boolean faltas, int horasFaltas, double calcLiquido) {
         this.setNomeFunc(nomeFunc);
         this.setCompetencia(competencia);
         this.setTipoProcessamento(tipoProcessamento);
@@ -19,6 +20,8 @@ public final class DadosFolha {
         this.setSalarioContratual(salarioContratual);
         this.setFaltas(faltas);
         this.setHorasFaltas(horasFaltas);
+        this.setCalcLiquido(calcLiquido);
+        
     }
 
     //getters
@@ -49,6 +52,10 @@ public final class DadosFolha {
     public int getHorasFaltas() {
         return this.horasFaltas;
     }
+    
+    public double getCalcLiquido(){
+        return this.calcLiquido;
+    }
 
     //setters
     public void setNomeFunc(String nomeFunc) {
@@ -78,5 +85,16 @@ public final class DadosFolha {
     public void setHorasFaltas(int horasFaltas) {
         this.horasFaltas = horasFaltas;
     }
+
+    public void setCalcLiquido(double calcLiquido) {
+        this.calcLiquido = calcLiquido;
+    }
+
+    @Override
+    public String toString() {
+        return "DadosFolha{" + "nomeFunc=" + nomeFunc + ", competencia=" + competencia + ", tipoProcessamento=" + tipoProcessamento + ", subTipoProcessamento=" + subTipoProcessamento + ", salarioContratual=" + salarioContratual + ", faltas=" + faltas + ", horasFaltas=" + horasFaltas + ", calcLiquido=" + calcLiquido + '}';
+    }
+    
+    
 
 }
